@@ -2,14 +2,13 @@
 
 -Reate React App
 -Configure Tailwind CSS
--
-
+-routing app created
 
 # Features (in Logged Out)
  - Login/Sign Up Page
     - sign-in/sign-up Form
     - redirect to browse page
-
+    - useRef hook
 
 
 # Features (in Logged in)
