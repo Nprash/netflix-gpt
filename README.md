@@ -2,7 +2,19 @@
 
 -Reate React App
 -Configure Tailwind CSS
+- Header
 -routing app created
+-Login Form
+-Form Validation
+-firebase setup
+-deploy production app in firebase
+-Create Sign up first user for authenticating
+-updadate profile api call, and stored in redux
+-implement sign in usre account
+-redux store and userSlice created 
+-implemented sign out button at header
+-Featch movies from TMDB
+
 
 # Features (in Logged Out)
  - Login/Sign Up Page

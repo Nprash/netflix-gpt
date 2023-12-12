@@ -3,23 +3,29 @@ import backgroundimage from "../assets/netflix-hero-image.jpg";
 import Header from "./Header";
 import { useState, useRef } from "react";
 import {checkValidData} from "../utilis/Validate"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {auth } from "../utilis/firebase"
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utilis/userSlice";
 
 const Login = () => {
 
-const [visible, setVisible] = useState(false);
-const [tick, setTick] = useState(true);
-const [isSignInForm, setIsSignInForm] = useState(true);
-const email = useRef(null);   
-const password = useRef(null);
-const name = useRef(null);   
-const [errormessage, setErrormessage] = useState(null);
-const [getpassword ,setGetpassword] = useState(false)
-
+  const [visible, setVisible] = useState(false);
+  const [tick, setTick] = useState(true);
+  const [isSignInForm, setIsSignInForm] = useState(true);
+  const name = useRef(null);   
+  const email = useRef(null);   
+  const password = useRef(null);
+  const [errormessage, setErrormessage] = useState(null);
+  const [getpassword ,setGetpassword] = useState(false)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleButtonClick =()=>{
     //validate the form data first
-    console.log(email.current.value)
-    console.log(password.current.value)
+    // console.log(email.current.value)
+    // console.log(password.current.value)
 
    const message = checkValidData(email.current.value, password.current.value)
 
@@ -27,8 +33,61 @@ const [getpassword ,setGetpassword] = useState(false)
     setErrormessage(message);
     setInterval(()=>{
       setErrormessage("")
-    },3000)
+    },5000)
    // now i can sign in or sign up
+
+   if(message) return; //if message is there return nothing, no need to write entire code in if condition
+
+   //sign in or sign up
+
+    if(!isSignInForm){
+    //sign up logic
+    createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+    .then((userCredential) => {
+      // Signed up 
+      const user = userCredential.user;
+      console.log(user)
+      updateProfile(user, {
+        displayName: name.current.value, photoURL: "https://avatars.githubusercontent.com/u/38063376?s=400&u=08a066f0dfeeca4bb15b6c683b70b546c8312dfe&v=4"
+      }).then(() => {
+        // Profile updated! stored in redux then navigate to browse page
+        const {uid, email, displayName, photoURL} = auth.currentUser; //getting details from the main auth from firebase(which is updated from above) not above user
+      dispatch(addUser({uid:uid, email:email, displayName:displayName, photoURL:photoURL }))
+        navigate("/Browse")
+      }).catch((error) => {
+        // An error occurred
+        setErrormessage(error.message)
+      });
+      
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      setErrormessage(errorCode +"-" + errorMessage)
+      // ..
+    });
+  
+
+
+    }else {
+    // sign in logic
+    signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      console.log(user)
+      navigate("/Browse") //after  login went/redirect to browse videos page
+
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      setErrormessage(errorCode+ "-" + errorMessage)
+    });
+
+    }
+
+   
 
   };
 
@@ -53,20 +112,20 @@ return (
             
 
             {
-            isSignInForm === false ? (<input
+            isSignInForm=== false?
+            (<input
               type="text"
               ref={name}
               placeholder="Full Name"
-              className="w-full outline-none text-xs text-stone-200 bg-stone-700 border-b-2 border-stone-700 focus:border-b-2 focus:border-red-500 rounded-md p-3 px-4 mb-3 "
-            />) : getpassword === true ? (null) :""  
+              className={`w-full p-3 px-4 mb-3 ${isSignInForm ? "hidden":null } outline-none text-xs text-stone-200 bg-stone-700 border-b-2 border-stone-700 focus:border-b-2 focus:border-red-500 rounded-md  `}
+            />): null
             }
-
 
             <input
               type="text"
               ref={email}
               placeholder="Email or phone number"
-              className="w-full outline-none text-xs text-stone-200 bg-stone-700 border-b-2 border-stone-700 focus:border-b-2 focus:border-red-500 rounded-md p-3 px-4  "
+              className="w-full outline-none text-xs  text-stone-200 bg-stone-700 border-b-2 border-stone-700 focus:border-b-2 focus:border-red-500 rounded-md p-3 px-4  "
             />
             {
               getpassword === true ? (null) :(<input
@@ -95,7 +154,7 @@ return (
                 />
                 <label htmlFor="remember" className="text-gray-100">Remember me</label>
               </div>
-              <span className="text-gray-100 hover:underline " onClick={()=>{setGetpassword(true); setIsSignInForm(false)}} >Forgot password ?</span>
+              <span className="text-gray-100 hover:underline cursor-pointer " onClick={()=>{setGetpassword(true); setIsSignInForm(false)}} >Forgot password ?</span>
             </div>
             }
 
