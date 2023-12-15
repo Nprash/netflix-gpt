@@ -2,12 +2,15 @@ import React from "react";
 import backgroundimage from "../assets/netflix-hero-image.jpg";
 import Header from "./Header";
 import { useState, useRef } from "react";
-import {checkValidData} from "../utilis/Validate"
+import {checkValidData} from "../utilis/Validate";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
-import {auth } from "../utilis/firebase"
+import {auth } from "../utilis/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utilis/userSlice";
+import {userAvatar} from "../utilis/constants"
+// import usericon from "../assets/usericon.jpeg";
+
 
 const Login = () => {
 
@@ -48,12 +51,14 @@ const Login = () => {
       const user = userCredential.user;
       console.log(user)
       updateProfile(user, {
-        displayName: name.current.value, photoURL: "https://avatars.githubusercontent.com/u/38063376?s=400&u=08a066f0dfeeca4bb15b6c683b70b546c8312dfe&v=4"
+        displayName: name.current.value, photoURL: userAvatar
+        //userAvatar coming from constants
       }).then(() => {
         // Profile updated! stored in redux then navigate to browse page
         const {uid, email, displayName, photoURL} = auth.currentUser; //getting details from the main auth from firebase(which is updated from above) not above user
-      dispatch(addUser({uid:uid, email:email, displayName:displayName, photoURL:photoURL }))
-        navigate("/Browse")
+        console.log(auth.currentUser)
+        dispatch(addUser({uid:uid, email:email, displayName:displayName, photoURL:photoURL }))
+        // navigate("/Browse")no need to navigate from here, onauthsatet change then there this navigate written and will execute from there
       }).catch((error) => {
         // An error occurred
         setErrormessage(error.message)
