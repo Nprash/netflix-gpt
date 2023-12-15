@@ -56,7 +56,8 @@ useEffect(()=>{
     <div className='absolute w-full z-30 flex justify-between items-center box-border'>
       <img src={logo} className='relative w-32  top-2 left-20  ' alt="netflix-logo"/>
       
-      {user && <div className={` ${islocation.pathname.includes("/Browse") ? "flex justify-center p-2 ":"hidden"}`}>
+      {user && 
+      <div className={` ${islocation.pathname.includes("/Browse") ? "flex justify-center p-2 pt-4":"hidden"}`}>
         <img src={user?.photoURL} alt="usericon" className='h-8 w-8 rounded-lg mr-3' />
       <button onClick={()=>handleSignout()} className='text-red-500 font-semibold'>sign out</button>
       </div>}

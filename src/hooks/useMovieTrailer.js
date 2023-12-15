@@ -13,8 +13,8 @@ const useMovieTrailer = (movieId) =>  {
     const getMovieVideos = async () =>{
     const data = await fetch("https://api.themoviedb.org/3/movie/"+movieId+"/videos?language=en-US", API_OPTIONS)
     const json = await data.json()
-    console.log(json.results)
-    const filtertrailer = json.results.filter((video)=>(video.type === "Clip"));
+    // console.log(json.results)
+    const filtertrailer = json.results.filter((video)=>(video.type === "Trailer"));
     //if there is no trailer in filter we will go json.results[0] whatever the video it is , it will take
     const trailer =filtertrailer.leangth ? filtertrailer[0] : json.results[0]
     // setTrailerid(trailer.key)

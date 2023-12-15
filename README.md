@@ -24,6 +24,10 @@
 -updated the store with trailer videos
 -embded the youtube video tag as per the trailer video key 
 -added tailwind css to make maincontainer component looks good
+-build secondary component with popular movies list fetch from tmdb api
+-created a custom hook for fetching and storing popular movies
+-moviecard build using tmdb movie poster-path with image url
+-added tailwind css to make secondary component looks good
 
 
 
