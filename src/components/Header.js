@@ -6,14 +6,23 @@ import { useSelector } from 'react-redux';
 import {signOut, onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from 'react-redux';
 import {addUser, removeUser} from "../utilis/userSlice"
+import { showGptSearch, toggleGptSearchView } from '../utilis/gptSlice';
+import { Options } from 'tsparticles-engine';
+import {SUPPORTD_LANGUAGES} from '../utilis/constants';
+import {changeLanguage} from "../utilis/configSlice"
 
 
 
 const Header = () => {
+
 const navigate = useNavigate();
 const islocation = useLocation();
-const user = useSelector((store)=>store.user); // in this user we have photourl sent from firebase
 const dispatch = useDispatch();
+const user = useSelector((store)=>store.user); // in this user we have photourl sent from firebase
+// const movies = useSelector(store=>store.movies)
+const showGptSearch = useSelector(store => store.gpt.showGptSearch)
+
+
 const  handleSignout = ()=>{
 
   signOut(auth).then(() => {
@@ -28,8 +37,8 @@ const  handleSignout = ()=>{
 
 //header is inside login(login is in routerprovider) so navigate will work,otherwise navigate wont work outside of router.
 //after sign in logic added here/authentication happened we are going to store this athentication state change
-//thi suseeffect will works like a event listener it works with header component when header render onauthstate will render it attached to header
-useEffect(()=>{
+//thi useeffect will works like a event listener it works with header component when header render onauthstate will render it attached to header
+  useEffect(()=>{
 
   const unsubscribe =  onAuthStateChanged(auth, (user) => {
       
@@ -44,6 +53,7 @@ useEffect(()=>{
       } else {
         // User is signed out
         dispatch(removeUser())
+        // dispatch(removeMovies())
         navigate("/")
       }
     });
@@ -52,15 +62,43 @@ useEffect(()=>{
     //when header is there then onauthStateChange will work, if no header no onauthstatechange
   },[])
 
+  const handleGptSearchClick = () =>{
+    //toggle gptsearch
+    dispatch(toggleGptSearchView())
+  }
+
+  const handleLanguageChange = (e) =>{
+    console.log(e.target.value)
+    dispatch(changeLanguage(e.target.value))
+  }
+
+
+
   return (
     <div className='absolute w-full z-30 flex justify-between items-center box-border'>
       <img src={logo} className='relative w-32  top-2 left-20  ' alt="netflix-logo"/>
       
-      {user && 
-      <div className={` ${islocation.pathname.includes("/Browse") ? "flex justify-center p-2 pt-4":"hidden"}`}>
+      {
+      user && 
+      <div className={` ${islocation.pathname.includes("/Browse") ? "flex justify-center items-center p-2 pt-4":"hidden"}`}>
+        <div className=''>
+          {showGptSearch && <select onChange={handleLanguageChange} className=' p-2 bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text rounded-lg focus:outline-none outline-none'>
+            {SUPPORTD_LANGUAGES.map((lang) => <option className='bg-gray-900 text-white rounded-lg focus:outline-none outline-none p-0 m-0' key={lang.identifier} value={lang.identifier} >{lang.name}
+            </option>)
+            }
+            
+          </select>}
+        </div>
+        <button onClick={handleGptSearchClick} className='flex p-2 bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text  mr-3 font-semibold'>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-red-400">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+          <span>{showGptSearch ? "Home page" : "GPT Search"}</span>
+        </button>
         <img src={user?.photoURL} alt="usericon" className='h-8 w-8 rounded-lg mr-3' />
-      <button onClick={()=>handleSignout()} className='text-red-500 font-semibold'>sign out</button>
-      </div>}
+        <button onClick={()=>handleSignout()} className=' p-2 bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text rounded-lg mr-3 font-semibold'>sign out</button>
+      </div>
+      }
     
     </div>
   )

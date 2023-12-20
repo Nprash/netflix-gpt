@@ -28,7 +28,10 @@
 -created a custom hook for fetching and storing popular movies
 -moviecard build using tmdb movie poster-path with image url
 -added tailwind css to make secondary component looks good
-
+-GPT search page feature
+-GPT Search bar
+-Multi Language feature added
+-Integrate GPT  API (get gpt api) 
 
 
 

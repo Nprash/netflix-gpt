@@ -7,16 +7,16 @@ const SecondaryContainer = () => {
 
   const movies = useSelector(store=>store.movies);
   if(!movies) return null;
-  console.log(movies)
+  // console.log(movies)
   return (
     <div className='bg-black bg-opacity-95'>
       <div className='-mt-80 relative pl-8 z-30'>
       <MovieList title="Now Playing" movies={movies.nowPlayingMovies} />
+      <MovieList title="Upcoming" movies={movies.upComingMovies} />
+      <MovieList title="Toprated" movies={movies.topratedMovies} />
       <MovieList title="Popular " movies={movies.popularMovies} />
-      <MovieList title="Drama" movies={movies.nowPlayingMovies} />
-      <MovieList title="Horror" movies={movies.nowPlayingMovies} />
       <MovieList title="Adventures" movies={movies.nowPlayingMovies} />
-      <MovieList title="Scintifiction" movies={movies.nowPlayingMovies} />
+      {/* <MovieList title="Scintifiction" movies={movies.nowPlayingMovies} /> */}
       </div>
       
       {/* 
