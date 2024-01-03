@@ -1,13 +1,18 @@
 
-import { useDispatch } from "react-redux"
-import { useEffect } from "react"
-import {API_OPTIONS} from "../utilis/constants"
-import { addTopratedMovies } from "../utilis/moviesSlice"
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import {API_OPTIONS} from "../utilis/constants";
+import { addTopratedMovies } from "../utilis/moviesSlice";
 
 
 const useTopratedMovies = () =>{
     const dispatch = useDispatch();
-    useEffect(()=>{getTopratedMovies()},[])
+    const topratedMovies = useSelector(store=>store.topratedMovies)
+        
+    useEffect(()=>{
+      !topratedMovies && getTopratedMovies()
+      //topratedMovies is not present in store then only it wil fetch from api
+    },[])
   
     const getTopratedMovies = async () =>{
       const data = await fetch("https://api.themoviedb.org/3/movie/top_rated?page=1", 

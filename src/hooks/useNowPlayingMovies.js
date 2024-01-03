@@ -1,5 +1,5 @@
 
-import { useDispatch } from "react-redux"
+import { useDispatch , useSelector} from "react-redux"
 import { useEffect } from "react"
 import {API_OPTIONS} from "../utilis/constants"
 import { addNowPlayingMovies } from "../utilis/moviesSlice"
@@ -7,7 +7,12 @@ import { addNowPlayingMovies } from "../utilis/moviesSlice"
 
 const useNowPlayingMovies = () =>{
     const dispatch = useDispatch();
-    useEffect(()=>{getNowPlayingMovies()},[])
+    const nowPlayingMovies = useSelector(store=>store.nowPlayingMovies)
+
+    useEffect(()=>{
+      !nowPlayingMovies && getNowPlayingMovies()
+      //nowPlayingMovies is not present in store then only it will fetch
+    },[])
   
     const getNowPlayingMovies = async () =>{
       const data = await fetch("https://api.themoviedb.org/3/movie/now_playing?&page=1", 

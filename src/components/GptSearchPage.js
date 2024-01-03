@@ -5,10 +5,16 @@ import ParticleBG from './ParticleBG'
 
 const GptSearch = () => {
   return (
-    <div>
-      <ParticleBG/>
-      <GptSearchbar/>
-      <GptMovieSuggestion/>
+    <div className=''>
+      <div className=' -z-50'>
+        <ParticleBG/>
+      </div>
+      <div className=''>
+        <GptSearchbar/>
+      </div>
+      <div className='relative w-full top-32'>
+        <GptMovieSuggestion/>
+      </div>
 
     </div>
   )

@@ -80,10 +80,10 @@ const  handleSignout = ()=>{
       
       {
       user && 
-      <div className={` ${islocation.pathname.includes("/Browse") ? "flex justify-center items-center p-2 pt-4":"hidden"}`}>
-        <div className=''>
-          {showGptSearch && <select onChange={handleLanguageChange} className=' p-2 bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text rounded-lg focus:outline-none outline-none'>
-            {SUPPORTD_LANGUAGES.map((lang) => <option className='bg-gray-900 text-white rounded-lg focus:outline-none outline-none p-0 m-0' key={lang.identifier} value={lang.identifier} >{lang.name}
+      <div className={` ${islocation.pathname.includes("/Browse") ? "flex justify-center items-center  p-2 pt-4":"hidden"}`}>
+        <div className='cursor-pointer'>
+          {showGptSearch && <select onChange={handleLanguageChange} className=' p-2 cursor-pointer bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text rounded-lg focus:outline-none outline-none'>
+            {SUPPORTD_LANGUAGES.map((lang) => <option className='bg-gray-900 bg-opacity-50 cursor-pointer text-white rounded-lg focus:outline-none outline-none p-0 m-0' key={lang.identifier} value={lang.identifier} >{lang.name}
             </option>)
             }
             

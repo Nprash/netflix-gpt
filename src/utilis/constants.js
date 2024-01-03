@@ -5,14 +5,15 @@
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmY2U5OTUzNzYyZjYyYWY1NjI3MzUxMGUyNWY3MzAyOCIsInN1YiI6IjY1Nzk1Y2VmYTFkMzMyMDExYjUwNDUyYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.j04K-E_mF2OcBrGFRJ63njCHujn3vAWz-_5PgICpEnA'
-    }
+      Authorization: 'Bearer ' + process.env.REACT_APP_TMDB_KEY,
+    },
   };
-  
+  // console.log(process.env.REACT_APP_TMDB_KEY)
   export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w342"
 
   export const SUPPORTD_LANGUAGES = [{identifier:"en", name:"English"},
                                       {identifier:"hindi", name:"Hindi"},
                                       {identifier:"spanish", name:"Spanish"},
                                     ];
-  export const OPENAI_KEY = ""
+                                    
+  export const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;                     

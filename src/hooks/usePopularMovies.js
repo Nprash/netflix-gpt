@@ -1,5 +1,5 @@
 
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import {API_OPTIONS} from "../utilis/constants"
 import { addPopularMovies } from "../utilis/moviesSlice"
@@ -7,7 +7,13 @@ import { addPopularMovies } from "../utilis/moviesSlice"
 
 const usePopularMovies = () =>{
     const dispatch = useDispatch();
-    useEffect(()=>{getPopularMovies()},[])
+    const popularMovies = useSelector(store=>store.popularMovies)
+    
+    useEffect(()=>{
+      
+      !popularMovies && getPopularMovies()
+      //popularMovies is not present in store then only it will fetch
+    },[])
   
     const getPopularMovies = async () =>{
       const data = await fetch("https://api.themoviedb.org/3/movie/popular?page=1", 
