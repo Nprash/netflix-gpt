@@ -75,12 +75,14 @@ const  handleSignout = ()=>{
 
 
   return (
-    <div className='absolute w-full z-30 flex justify-between items-center box-border'>
-      <img src={logo} className='relative w-32  top-2 left-20  ' alt="netflix-logo"/>
+    <div className='absolute w-full z-30  flex justify-between items-center box-border flex-col md:flex-row'>
+      <div className='w-fit relative top-2 ml-20'>
+        <img src={logo} className=' w-36 h-14  xs:mx-auto xs:left-0' alt="netflix-logo"/>
+      </div>
       
       {
       user && 
-      <div className={` ${islocation.pathname.includes("/Browse") ? "flex justify-center items-center  p-2 pt-4":"hidden"}`}>
+      <div className={` ${islocation.pathname.includes("/Browse") ? "flex justify-center items-center  p-2 pt-4 mr-3 ":"hidden"}`}>
         <div className='cursor-pointer'>
           {showGptSearch && <select onChange={handleLanguageChange} className=' p-2 cursor-pointer bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text rounded-lg focus:outline-none outline-none'>
             {SUPPORTD_LANGUAGES.map((lang) => <option className='bg-gray-900 bg-opacity-50 cursor-pointer text-white rounded-lg focus:outline-none outline-none p-0 m-0' key={lang.identifier} value={lang.identifier} >{lang.name}
@@ -89,14 +91,18 @@ const  handleSignout = ()=>{
             
           </select>}
         </div>
-        <button onClick={handleGptSearchClick} className='flex p-2 bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text  mr-3 font-semibold'>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-red-400">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-          </svg>
-          <span>{showGptSearch ? "Home page" : "GPT Search"}</span>
-        </button>
-        <img src={user?.photoURL} alt="usericon" className='h-8 w-8 rounded-lg mr-3' />
-        <button onClick={()=>handleSignout()} className=' p-2 bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text rounded-lg mr-3 font-semibold'>sign out</button>
+        <div className='flex  items-baseline '>
+          <button onClick={handleGptSearchClick} className='flex  p-2 bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text  mr-3 font-semibold'>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 text-red-400 ">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <span>{showGptSearch ? "Home page" : "GPT Search"}</span>
+          </button>
+        </div>
+        <div className='flex justify-center items-center'>
+          <img src={user?.photoURL} alt="usericon" className='h-7 w-7 rounded-lg' />
+          <button onClick={()=>handleSignout()} className=' p-2 bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text rounded-lg font-semibold'>sign out</button>
+        </div>
       </div>
       }
     

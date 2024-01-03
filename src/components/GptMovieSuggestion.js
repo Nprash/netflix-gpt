@@ -14,7 +14,7 @@ if(!movieNames) return null;
 
 
   return (
-    <div className=' w-full m-4 p-4 text-white'>
+    <div className=' m-4 p-4 text-white'>
       <div>
         {movieNames.map((movieName, index)=>(
           <MovieList key={movieName} title={movieName} movies={tmdb_matched_movieResults[index]}/>
