@@ -33,13 +33,13 @@ const GptSearchbar = () => {
     const gptResults = await openai.chat.completions.create({
       messages: [{ role: 'user', content: gptQuery }],
       model: 'gpt-3.5-turbo',
-    });// got this code from  openai site  https://www.npmjs.com/package/openai
+    });// got this code from  npm openai site  https://www.npmjs.com/package/openai
     if(!gptResults.choices){
       return null;//for error handling
     }
     console.log(gptResults.choices?.[0]?.message?.content)
     const gptMovies = gptResults.choices?.[0]?.message?.content.split(",");// it turns output into an array with spliting comma seperated
-    //["Radhe", "Roohi", S"ardar Ka Grandson", "The Big Bull", "Mumbai Saga"] will create like this for above line
+    //["Radhe", "Roohi", S"ardar Ka Grandson", "The Big Bull", "Mumbai Saga"] will create 5movie names based on our search query passed to opnaiApI like this for above line
     // for each movie i will search in TMDB API
 
     const promiseArray = gptMovies.map(movie => searchMovieTMDB(movie)) //pasing movienames in map into the above created function to search in TMDB api
@@ -66,17 +66,17 @@ const GptSearchbar = () => {
    //value={searchfield} onChange={handleInputChange}
 
   return (
-    <div>
-      <form onSubmit={(e)=>{e.preventDefault()}} className= "absolute top-16 left-[40%] m-4  flex justify-center items-center">
+    <div className='absolute flex justify-center md:top-16 md:left-[35%] sm:top-28 sm:mx-auto top-28'>
+      <form onSubmit={(e)=>{e.preventDefault()}} className= "md:flex md:justify-center md:items-center md:m-3 flex items-center">
         <div className='w-full h-8 flex justify-center items-center rounded-lg bg-gradient-to-r from-pink-500 via-red-600 to-black p-[3px] mx-4'>
-          <div className='h-full w-full rounded-md flex justify-center items-center bg-white  '>
-            <input type="text" ref={searchText}  className=" focus:outline-none" placeholder={lang[langkey].gptSearchPlaceholder}/>
+          <div className='h-full w-full rounded-md flex justify-center items-center bg-white  text-black'>
+            <input type="text" ref={searchText}  className="w-full focus:outline-none rounded-md text-sm m-2" placeholder={lang[langkey].gptSearchPlaceholder}/>
           </div>
         </div>
           
         <div className='w-20 h-8 flex justify-center items-center rounded-lg bg-gradient-to-r from-pink-500 via-red-600 to-black p-[3px]'>
-          <div className='h-full w-full rounded-md flex justify-center items-center bg-white rounded- '>
-            <button onClick={handleGptSearchClick} className="text-black font-medium">{lang[langkey].search}</button>
+          <div className='h-full w-full rounded-md flex justify-center items-center bg-white  '>
+            <button onClick={handleGptSearchClick} className="text-black text-sm m-2 font-medium">{lang[langkey].search}</button>
           </div>
         </div>
 

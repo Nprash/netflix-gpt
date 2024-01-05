@@ -9,7 +9,7 @@ const GptSearch = () => {
       <div className='w-full -z-50'>
         <ParticleBG/>
       </div>
-      <div className=''>
+      <div className='w-full'>
         <GptSearchbar/> 
       </div>
       <div className='relative w-full top-32'>
