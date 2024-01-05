@@ -75,16 +75,17 @@ const  handleSignout = ()=>{
 
 
   return (
-    <div className='absolute md:w-full z-30  flex justify-between items-center box-border flex-col md:flex-row sm:w-full'>
-      <div className='w-fit relative top-2 md:ml-20 mb-2'>
-        <img src={logo} className=' md:w-36 md:h-14 sm:w-32 w-28 xs:mx-auto xs:left-0' alt="netflix-logo"/>
+    <div className='absolute md:w-full z-30  flex justify-between items-center box-border flex-col md:flex-row sm:w-full mx-auto w-full'>
+      <div className='w-fit relative top-2 lg:ml-20 md:ml-12 ml-10 mb-2'>
+        <img src={logo} className=' lg:w-36 md:w-28  md:h-14 sm:w-32 w-28 xs:mx-auto xs:left-0' alt="netflix-logo"/>
       </div>
       
       {
       user && 
-        <div className={` ${islocation.pathname.includes("/Browse") ? "md:flex md:justify-center md:items-center md:p-2 md:pt-4 md:mr-3 flex  sm:justify-center sm:items-center sm:mt-2 md:mt-0 mt-4":"hidden"}`}>
+        <div className={` ${islocation.pathname.includes("/Browse") ? "md:flex md:justify-center md:items-center md:p-2 md:pt-4 md:mr-3 flex  sm:justify-center sm:items-center justify-center items-center p-2 sm:mt-2 md:mt-0 mt-4":"hidden"}`}>
           <div className='cursor-pointer w-fit h-fit'>
-            {showGptSearch && <select onChange={handleLanguageChange} className=' md:p-2 cursor-pointer bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text rounded-lg focus:outline-none outline-none'>
+            {showGptSearch && 
+            <select onChange={handleLanguageChange} className=' md:p-2 text-sm xl:text-lg lg:text-md md:text-md sm:text-sm cursor-pointer bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text rounded-lg focus:outline-none outline-none'>
               {SUPPORTD_LANGUAGES.map((lang) => <option className='bg-gray-900 bg-opacity-50 cursor-pointer text-white rounded-lg focus:outline-none outline-none p-0 m-0' key={lang.identifier} value={lang.identifier} >{lang.name}
               </option>)
               }
@@ -92,7 +93,7 @@ const  handleSignout = ()=>{
             </select>}
           </div>
           <div className='flex  sm:items-baseline items-baseline'>
-            <button onClick={handleGptSearchClick} className='md:flex  md:p-2 bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text  md:mr-3 font-semibold flex'>
+            <button onClick={handleGptSearchClick} className='md:flex text-sm xl:text-lg lg:text-md md:text-md sm:text-sm md:p-2 bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text  md:mr-3 font-semibold flex'>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={`${showGptSearch? 'd-none':'w-6 h-6 text-red-400'}`}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
               </svg>
@@ -101,7 +102,7 @@ const  handleSignout = ()=>{
           </div>
           <div className='flex justify-center items-center ml-4 md:m-0'>
             <img src={user?.photoURL} alt="usericon" className='md:h-7 md:w-7 sm:w-5 sm:h-5 w-6 h-6 rounded-lg mr-2' />
-            <button onClick={()=>handleSignout()} className=' md:p-2 whitespace-nowrap bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text rounded-lg font-semibold'>sign out</button>
+            <button onClick={()=>handleSignout()} className=' md:p-2 whitespace-nowrap text-sm xl:text-lg lg:text-md md:text-md sm:text-sm bg-gradient-to-r from-red-400 to-pink-600 text-transparent bg-clip-text rounded-lg font-semibold'>sign out</button>
           </div>
         </div>
       }

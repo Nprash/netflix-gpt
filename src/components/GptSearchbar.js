@@ -66,17 +66,17 @@ const GptSearchbar = () => {
    //value={searchfield} onChange={handleInputChange}
 
   return (
-    <div className='absolute flex justify-center md:top-16 md:left-[35%] sm:top-28 sm:mx-auto top-28'>
+    <div className='absolute flex justify-center xl:left-[35%] lg:left-[28%] md:left-[20%] sm:left-[15%] left-10% sm:top-30 md:top-20  top-32'>
       <form onSubmit={(e)=>{e.preventDefault()}} className= "md:flex md:justify-center md:items-center md:m-3 flex items-center">
         <div className='w-full h-8 flex justify-center items-center rounded-lg bg-gradient-to-r from-pink-500 via-red-600 to-black p-[3px] mx-4'>
-          <div className='h-full w-full rounded-md flex justify-center items-center bg-white  text-black'>
-            <input type="text" ref={searchText}  className="w-full focus:outline-none rounded-md text-sm m-2" placeholder={lang[langkey].gptSearchPlaceholder}/>
+          <div className='h-full w-full rounded-md flex justify-center items-center bg-white  '>
+            <input type="text" ref={searchText}  className="w-full focus:outline-none rounded-md md:text-sm text-[12px] md:m-2 m-1 font-medium" placeholder={lang[langkey].gptSearchPlaceholder}/>
           </div>
         </div>
           
-        <div className='w-20 h-8 flex justify-center items-center rounded-lg bg-gradient-to-r from-pink-500 via-red-600 to-black p-[3px]'>
+        <div className='md:w-20 md:h-8 sm:w-16 sm:h-6 flex justify-center items-center rounded-lg bg-gradient-to-r from-pink-500 via-red-600 to-black p-[3px]'>
           <div className='h-full w-full rounded-md flex justify-center items-center bg-white  '>
-            <button onClick={handleGptSearchClick} className="text-black text-sm m-2 font-medium">{lang[langkey].search}</button>
+            <button onClick={handleGptSearchClick} className="text-black md:text-sm text-[12px] md:m-2 m-1 font-medium">{lang[langkey].search}</button>
           </div>
         </div>
 

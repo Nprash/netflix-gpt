@@ -109,7 +109,7 @@ return (
         <div className="absolute inset-0">
           <img src={backgroundimage} className="object-cover w-full h-full brightness-[.5]"  alt="backgroundimage" />
         </div>
-        <form onSubmit={(e)=> e.preventDefault()} className="absolute w-[450px]  mt-16 mx-auto left-0 right-0 bg-black bg-opacity-70 flex flex-col  p-10 px-12 border border-black box-border rounded-md shadow-md ">
+        <form onSubmit={(e)=> e.preventDefault()} className="absolute lg:w-[450px] md:w-[400px] sm:w-[420px] w-340px  mt-16  left-0 right-0 bg-black bg-opacity-70 flex flex-col  sm:p-10 sm:px-12 sm:mx-auto p-4 mx-8 border border-black box-border rounded-md shadow-md ">
           
             <h1 className={`mb-4 text-gray-100 text-2xl font-bold `}>{ isSignInForm === true ? ("Sign In"):getpassword=== true ? ("Recover your Password"):("Sign Up") }</h1>
           
