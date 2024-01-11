@@ -3,7 +3,7 @@ import backgroundimage from "../assets/netflix-hero-image.jpg";
 import Header from "./Header";
 import { useState, useRef } from "react";
 import {checkValidData} from "../utilis/Validate";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from "firebase/auth";
 import {auth } from "../utilis/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -21,16 +21,17 @@ const Login = () => {
   const email = useRef(null);   
   const password = useRef(null);
   const [errormessage, setErrormessage] = useState(null);
-  const [getpassword ,setGetpassword] = useState(false)
+  const [getpassword , setGetpassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [message, setMessage] = useState(""); // Added this state
 
   const handleButtonClick =()=>{
     //validate the form data first
     // console.log(email.current.value)
     // console.log(password.current.value)
 
-   const message = checkValidData(email.current.value, password.current.value)
+   const message = checkValidData(email?.current?.value, password?.current?.value)
 
     //  console.log(message)
     setErrormessage(message);
@@ -45,18 +46,18 @@ const Login = () => {
 
     if(!isSignInForm){
     //sign up logic
-    createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+    createUserWithEmailAndPassword(auth, email?.current?.value, password?.current?.value)
     .then((userCredential) => {
       // Signed up 
       const user = userCredential.user;
-      console.log(user)
+      // console.log(user)
       updateProfile(user, {
         displayName: name.current.value, photoURL: userAvatar
         //userAvatar coming from constants
       }).then(() => {
         // Profile updated! stored in redux then navigate to browse page
         const {uid, email, displayName, photoURL} = auth.currentUser; //getting details from the main auth from firebase(which is updated from above) not above user
-        console.log(auth.currentUser)
+        // console.log(auth.currentUser)
         dispatch(addUser({uid:uid, email:email, displayName:displayName, photoURL:photoURL }))
         // navigate("/Browse")no need to navigate from here, onauthsatet change then there this navigate written and will execute from there
       }).catch((error) => {
@@ -74,9 +75,22 @@ const Login = () => {
   
 
 
-    }else {
-    // sign in logic
-    signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+    }else if(getpassword){
+         // Forget password logic
+    sendPasswordResetEmail(auth, email?.current?.value)
+    .then(() => {
+      // Password reset email sent
+      alert("passowrd reset link sent successfully")
+      setMessage("Password reset email sent. Check your inbox!");
+    })
+    .catch((error) => {
+      // An error occurred
+      setMessage(`Error: ${error.message}`);
+    });
+
+    }else{
+      // sign in logic
+    signInWithEmailAndPassword(auth, email?.current?.value, password?.current?.value)
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
@@ -89,7 +103,6 @@ const Login = () => {
       const errorMessage = error.message;
       setErrormessage(errorCode+ "-" + errorMessage)
     });
-
     }
 
    
@@ -114,36 +127,31 @@ return (
             <h1 className={`mb-4 text-gray-100 text-2xl font-bold `}>{ isSignInForm === true ? ("Sign In"):getpassword=== true ? ("Recover your Password"):("Sign Up") }</h1>
           
           <div className="flex flex-col justify-center items-center">
-            
-
-            {
-            isSignInForm=== false?
-            (<input
+            {/* there is no signin form aswell as no getpassword hook or false then only fullname input will render */}
+          {!isSignInForm && !getpassword && (
+            <input
               type="text"
               ref={name}
               placeholder="Full Name"
-              className={`w-full p-3 px-4 mb-3 ${isSignInForm ? "hidden":null } outline-none text-xs text-stone-200 bg-stone-700 border-b-2 border-stone-700 focus:border-b-2 focus:border-red-500 rounded-md  `}
-            />): null
-            }
-
-            <input
-              type="text"
-              ref={email}
-              placeholder="Email or phone number"
-              className="w-full outline-none text-xs  text-stone-200 bg-stone-700 border-b-2 border-stone-700 focus:border-b-2 focus:border-red-500 rounded-md p-3 px-4  "
+              className={`w-full p-3 px-4 mb-3 outline-none text-xs text-stone-200 bg-stone-700 border-b-2 border-stone-700 focus:border-b-2 focus:border-red-500 rounded-md  `}
             />
+          )}
+            {/* <ruby className="text-gray-200">prasanth
+            <rt>Email or phone number</rt></ruby> */}
+            <input type="text" ref={email} placeholder="Email or phone number" className="w-full outline-none text-xs  text-stone-200 bg-stone-700 border-b-2 border-stone-700 focus:border-b-2 focus:border-red-500 rounded-md p-3 px-4 " />
             {
-              getpassword === true ? (null) :(<input
+              getpassword === true ? (null) :(
+              <input
                 type="password"
                 ref={password}
-                placeholder="Password"
+                placeholder="Password" 
                 className="w-full outline-none text-xs text-stone-200  bg-stone-700 border-b-2 border-stone-700 focus:border-b-2 focus:border-red-500 rounded-md p-3 px-4  mt-3 mb-8"
               />)  
             }
             
             {!errormessage != null && <span className={`absolute left-12  p-0 text-[13px] text-red-500 ${isSignInForm ? " mt-6" :"mt-28"}`}>{errormessage}</span>}
 
-            <button className="w-full text-stone-200  text-sm bg-red-500 p-2 rounded-md  " 
+            <button className={`w-full text-stone-200  text-sm bg-red-500 p-2 rounded-md  ${getpassword? "mt-8":null}`} 
             onClick={()=> handleButtonClick()}>
             {isSignInForm === true ? ("Sign In"):getpassword=== true ? ("Submit"):("Sign Up")}
             </button>
