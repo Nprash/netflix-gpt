@@ -75,7 +75,10 @@ const Login = () => {
   
 
 
-    }else if(getpassword){
+    }else if(!isSignInForm && getpassword){
+
+      // {/*The condition getpassword will only be true when the component renders for the first time and getpassword is set to false. It won't be true when you click the "Forgot password?" link. To fix this, you should change the condition to check if isSignInForm is false and getpassword is true:*/}
+
          // Forget password logic
     sendPasswordResetEmail(auth, email?.current?.value)
     .then(() => {
